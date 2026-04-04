@@ -611,7 +611,11 @@ app.get('/api/preview', async (req, res) => {
   }
 })
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Visual editor API running at http://localhost:${port}`)
-})
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Visual editor API running at http://localhost:${port}`)
+  })
+}
+
+export default app
