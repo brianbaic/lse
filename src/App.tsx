@@ -717,12 +717,6 @@ function App() {
       const previewResponse = await fetch(getApiUrl(`/api/preview?file=${encodeURIComponent(selectedFile)}`))
       const previewPayload = await previewResponse.json()
       if (!previewResponse.ok) {
-        const fallback = components.find((file) => file.endsWith('/FullPage.tsx') && file !== selectedFile)
-        if (fallback) {
-          setStatus(`Preview failed for ${selectedFile}. Loading fallback ${fallback}...`)
-          setSelectedFile(fallback)
-          return
-        }
         const message = String(previewPayload.error ?? previewPayload.message ?? 'Preview compilation failed.')
         setPreviewScript('')
         setStatus(`Preview error: ${message}`)
