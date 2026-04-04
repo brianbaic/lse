@@ -521,9 +521,9 @@ function resolveWithinProject(relativePath) {
 
 function rewriteReactImportsToCdn(bundleText) {
   return bundleText
-    .replace(/from\s+['"]react['"]/g, 'from "https://esm.sh/react@18"')
-    .replace(/from\s+['"]react\/jsx-runtime['"]/g, 'from "https://esm.sh/react@18/jsx-runtime"')
-    .replace(/from\s+['"]react-dom\/client['"]/g, 'from "https://esm.sh/react-dom@18/client"')
+    .replace(/from\s*['"]react['"]/g, 'from "https://esm.sh/react@18"')
+    .replace(/from\s*['"]react\/jsx-runtime['"]/g, 'from "https://esm.sh/react@18/jsx-runtime"')
+    .replace(/from\s*['"]react-dom\/client['"]/g, 'from "https://esm.sh/react-dom@18/client"')
 }
 
 app.get('/api/components', async (_, res) => {

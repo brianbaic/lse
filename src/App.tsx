@@ -305,6 +305,23 @@ function buildPreviewDocument(script: string, theme: 'light' | 'dark') {
       </head>
       <body data-ve-theme="${theme}">
         <div id="root"></div>
+        <script>
+          (function () {
+            function showRuntimeError(prefix, detail) {
+              var message = prefix + ': ' + String(detail || 'Unknown error')
+              document.body.innerHTML = '<pre style="margin:0;padding:20px;background:#fff7ed;color:#7c2d12;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;line-height:1.45">' + message.replace(/</g, '&lt;') + '</pre>'
+            }
+
+            window.addEventListener('error', function (event) {
+              showRuntimeError('Preview runtime error', event && event.message)
+            })
+
+            window.addEventListener('unhandledrejection', function (event) {
+              var reason = event && event.reason ? (event.reason.stack || event.reason.message || event.reason) : 'Unknown promise rejection'
+              showRuntimeError('Preview module error', reason)
+            })
+          })()
+        <\/script>
         <script type="module">${script}<\/script>
         <script>${inlineEditScript}<\/script>
       </body>
