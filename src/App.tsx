@@ -1105,6 +1105,31 @@ function App() {
 
       <main className="grid min-h-[calc(100vh-108px)] grid-cols-1 gap-4 p-4 xl:grid-cols-[260px_minmax(0,1fr)_360px]">
         <aside className={`rounded-2xl border p-4 shadow-sm overflow-y-auto ${isDark ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'}`}>
+          <div className={`border-b pb-4 ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
+            <h3 className={`mb-3 text-sm font-semibold uppercase tracking-wide ${isDark ? 'text-slate-300' : 'text-slate-500'}`}>Getting Started</h3>
+            <div className={`space-y-3 text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+              <div>
+                <p className={`font-semibold mb-1 ${isDark ? 'text-slate-100' : 'text-slate-700'}`}>1. Select a Component</p>
+                <p>Click any component above to load it. The live preview will appear in the center panel.</p>
+              </div>
+              <div>
+                <p className={`font-semibold mb-1 ${isDark ? 'text-slate-100' : 'text-slate-700'}`}>2. Edit in Preview</p>
+                <p>Click on any text or image in the preview to edit it directly. A popup editor will appear.</p>
+              </div>
+              <div>
+                <p className={`font-semibold mb-1 ${isDark ? 'text-slate-100' : 'text-slate-700'}`}>3. Manage Classes</p>
+                <p>Use the right panel to select elements, edit classNames, and toggle utility classes.</p>
+              </div>
+              <div>
+                <p className={`font-semibold mb-1 ${isDark ? 'text-slate-100' : 'text-slate-700'}`}>4. Schema Controls</p>
+                <p>Use the Schema Editor section to add/edit repeater items, change text, and manage layout.</p>
+              </div>
+              <div className={`pt-2 border-t ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
+                <p className={`text-xs italic ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>All changes are saved directly to the source code.</p>
+              </div>
+            </div>
+          </div>
+
           <h2 className={`mb-3 text-sm font-semibold uppercase tracking-wide ${isDark ? 'text-slate-300' : 'text-slate-500'}`}>Components</h2>
           <div className="space-y-2">
             {groupedComponents.map((group) => (
@@ -1135,31 +1160,6 @@ function App() {
                 })}
               </div>
             ))}
-          </div>
-
-          <div className={`mt-8 border-t pt-4 ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
-            <h3 className={`mb-3 text-sm font-semibold uppercase tracking-wide ${isDark ? 'text-slate-300' : 'text-slate-500'}`}>Getting Started</h3>
-            <div className={`space-y-3 text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-              <div>
-                <p className={`font-semibold mb-1 ${isDark ? 'text-slate-100' : 'text-slate-700'}`}>1. Select a Component</p>
-                <p>Click any component above to load it. The live preview will appear in the center panel.</p>
-              </div>
-              <div>
-                <p className={`font-semibold mb-1 ${isDark ? 'text-slate-100' : 'text-slate-700'}`}>2. Edit in Preview</p>
-                <p>Click on any text or image in the preview to edit it directly. A popup editor will appear.</p>
-              </div>
-              <div>
-                <p className={`font-semibold mb-1 ${isDark ? 'text-slate-100' : 'text-slate-700'}`}>3. Manage Classes</p>
-                <p>Use the right panel to select elements, edit classNames, and toggle utility classes.</p>
-              </div>
-              <div>
-                <p className={`font-semibold mb-1 ${isDark ? 'text-slate-100' : 'text-slate-700'}`}>4. Schema Controls</p>
-                <p>Use the Schema Editor section to add/edit repeater items, change text, and manage layout.</p>
-              </div>
-              <div className={`pt-2 border-t ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
-                <p className={`text-xs italic ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>All changes are saved directly to the source code.</p>
-              </div>
-            </div>
           </div>
         </aside>
 
