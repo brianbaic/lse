@@ -631,6 +631,23 @@ function buildInlineEditScript() {
             node.setAttribute('title', 'Click to edit');
           }
         });
+
+        const fallbackCandidates = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, li, a, button, label, small, strong, em, blockquote');
+        fallbackCandidates.forEach(function(node) {
+          if (node.hasAttribute('data-schema-id')) {
+            return;
+          }
+          const hasDirectText = Array.from(node.childNodes || []).some(function(child) {
+            return child.nodeType === Node.TEXT_NODE && String(child.textContent || '').trim().length > 0;
+          });
+          if (!hasDirectText) {
+            return;
+          }
+          node.style.cursor = 'pointer';
+          if (!node.getAttribute('title')) {
+            node.setAttribute('title', 'Click to edit');
+          }
+        });
       }
 
       document.addEventListener('click', function(event) {
