@@ -5,15 +5,50 @@ import * as t from '@babel/types'
 import esbuild from 'esbuild'
 import express from 'express'
 import fs from 'node:fs/promises'
+import { statSync } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
+import { fileURLToPath } from 'node:url'
 
 const app = express()
 const port = 4310
-const projectRoot = path.resolve(process.env.VE_PROJECT_ROOT || path.resolve(process.cwd(), 'src', 'playground'))
+const thisFileDir = path.dirname(fileURLToPath(import.meta.url))
+const projectRoot = resolveProjectRoot()
 
 app.use(cors())
 app.use(express.json({ limit: '2mb' }))
+
+function isDirectory(targetPath) {
+  try {
+    return statSync(targetPath).isDirectory()
+  } catch {
+    return false
+  }
+}
+
+function resolveProjectRoot() {
+  const envRoot = process.env.VE_PROJECT_ROOT
+    ? path.isAbsolute(process.env.VE_PROJECT_ROOT)
+      ? process.env.VE_PROJECT_ROOT
+      : path.resolve(process.cwd(), process.env.VE_PROJECT_ROOT)
+    : null
+
+  const candidates = [
+    envRoot,
+    path.resolve(process.cwd(), 'src', 'playground'),
+    path.resolve(process.cwd(), '..', 'src', 'playground'),
+    path.resolve(thisFileDir, '..', 'src', 'playground'),
+    path.resolve(thisFileDir, '..', '..', 'src', 'playground'),
+  ].filter(Boolean)
+
+  for (const candidate of candidates) {
+    if (isDirectory(candidate)) {
+      return candidate
+    }
+  }
+
+  return path.resolve(process.cwd(), 'src', 'playground')
+}
 
 function isTsxFile(fileName) {
   return fileName.endsWith('.tsx') && !fileName.endsWith('.d.tsx')
