@@ -14,6 +14,8 @@ const app = express()
 const port = 4310
 const thisFileDir = path.dirname(fileURLToPath(import.meta.url))
 const projectRoot = resolveProjectRoot()
+const previewCache = new Map()
+const PREVIEW_CACHE_LIMIT = 64
 
 app.use(cors())
 app.use(express.json({ limit: '2mb' }))
@@ -517,6 +519,13 @@ function resolveWithinProject(relativePath) {
   return absolutePath
 }
 
+function rewriteReactImportsToCdn(bundleText) {
+  return bundleText
+    .replace(/from\s+['"]react['"]/g, 'from "https://esm.sh/react@18"')
+    .replace(/from\s+['"]react\/jsx-runtime['"]/g, 'from "https://esm.sh/react@18/jsx-runtime"')
+    .replace(/from\s+['"]react-dom\/client['"]/g, 'from "https://esm.sh/react-dom@18/client"')
+}
+
 app.get('/api/components', async (_, res) => {
   try {
     const files = await listTsxFiles(projectRoot)
@@ -591,6 +600,14 @@ app.get('/api/preview', async (req, res) => {
   try {
     const file = String(req.query.file || '')
     const absolutePath = resolveWithinProject(file)
+    const stat = await fs.stat(absolutePath)
+    const cacheKey = `${file}:${stat.mtimeMs}`
+    const cachedScript = previewCache.get(cacheKey)
+    if (cachedScript) {
+      res.json({ script: cachedScript, cached: true })
+      return
+    }
+
     const componentSource = await fs.readFile(absolutePath, 'utf8')
     const schema = await loadOrDiscoverSchema(file, componentSource)
     
@@ -634,13 +651,27 @@ app.get('/api/preview', async (req, res) => {
       },
       bundle: true,
       write: false,
-      format: 'iife',
+      format: 'esm',
       platform: 'browser',
       jsx: 'automatic',
+      external: ['react', 'react-dom/client', 'react/jsx-runtime'],
+      define: {
+        'process.env.NODE_ENV': '"production"',
+      },
+      minify: true,
+      legalComments: 'none',
       logLevel: 'silent',
     })
+    const script = rewriteReactImportsToCdn(result.outputFiles[0].text)
+    if (previewCache.size >= PREVIEW_CACHE_LIMIT) {
+      const oldestKey = previewCache.keys().next().value
+      if (oldestKey) {
+        previewCache.delete(oldestKey)
+      }
+    }
+    previewCache.set(cacheKey, script)
 
-    res.json({ script: result.outputFiles[0].text })
+    res.json({ script })
   } catch (error) {
     res.status(400).json({ message: 'Failed to compile preview bundle.', error: String(error) })
   }

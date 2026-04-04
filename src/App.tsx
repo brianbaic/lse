@@ -305,7 +305,7 @@ function buildPreviewDocument(script: string, theme: 'light' | 'dark') {
       </head>
       <body data-ve-theme="${theme}">
         <div id="root"></div>
-        <script>${script}<\/script>
+        <script type="module">${script}<\/script>
         <script>${inlineEditScript}<\/script>
       </body>
     </html>
@@ -695,7 +695,7 @@ function App() {
       return
     }
 
-    async function loadSelectedFile() {
+    async function loadSelectedFile(): Promise<boolean> {
       const sourceResponse = await fetch(getApiUrl(`/api/source?file=${encodeURIComponent(selectedFile)}`))
       const sourcePayload = await sourceResponse.json()
       const nextSource = String(sourcePayload.source ?? '')
@@ -715,20 +715,30 @@ function App() {
       }
 
       const previewResponse = await fetch(getApiUrl(`/api/preview?file=${encodeURIComponent(selectedFile)}`))
-      const previewPayload = await previewResponse.json()
+      let previewPayload: any = {}
+      try {
+        previewPayload = await previewResponse.json()
+      } catch {
+        previewPayload = {}
+      }
       if (!previewResponse.ok) {
         const message = String(previewPayload.error ?? previewPayload.message ?? 'Preview compilation failed.')
         setPreviewScript('')
         setStatus(`Preview error: ${message}`)
-        return
+        return false
       }
 
       setPreviewScript(String(previewPayload.script ?? ''))
+      return true
     }
 
     setStatus(`Loading ${selectedFile}...`)
     loadSelectedFile()
-      .then(() => setStatus('Ready'))
+      .then((ok) => {
+        if (ok) {
+          setStatus('Ready')
+        }
+      })
       .catch((error: unknown) => {
         setStatus(`Failed to load file: ${String(error)}`)
       })
