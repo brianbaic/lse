@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "component": "FeatureCard",
+  "controls": [
+    {
+      "id": "feature-heading",
+      "type": "text",
+      "label": "Heading",
+      "binding": {
+        "kind": "textNode",
+        "content": "Powerful features for modern development"
+      }
+    },
+    {
+      "id": "feature-subheading",
+      "type": "text",
+      "label": "Subheading",
+      "binding": {
+        "kind": "textNode",
+        "content": "Everything you need to build beautiful UIs"
+      }
+    },
+    {
+      "id": "features",
+      "type": "repeater",
+      "label": "Features",
+      "binding": {
+        "kind": "array",
+        "array": "features",
+        "idKey": "id",
+        "template": {
+          "id": "new-feature",
+          "icon": "✨",
+          "title": "New Feature",
+          "description": "Describe this feature"
+        }
+      }
+    }
+  ]
+}

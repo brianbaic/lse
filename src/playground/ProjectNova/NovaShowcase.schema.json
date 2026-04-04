@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "component": "NovaShowcase",
+  "controls": [
+    {
+      "id": "nova-showcase-title",
+      "type": "text",
+      "label": "Section Title",
+      "binding": {
+        "kind": "textNode",
+        "content": "Why teams switch to visual-first coding"
+      }
+    },
+    {
+      "id": "nova-showcase-subtitle",
+      "type": "text",
+      "label": "Section Subtitle",
+      "binding": {
+        "kind": "textNode",
+        "content": "All the leverage of component systems, with none of the handoff friction."
+      }
+    },
+    {
+      "id": "cards",
+      "type": "repeater",
+      "label": "Cards",
+      "binding": {
+        "kind": "array",
+        "array": "cards",
+        "idKey": "id",
+        "template": {
+          "id": "new-card",
+          "title": "New capability",
+          "description": "Describe this value proposition"
+        }
+      }
+    }
+  ]
+}

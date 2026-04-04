@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "component": "NovaTestimonials",
+  "controls": [
+    {
+      "id": "nova-testimonials-title",
+      "type": "text",
+      "label": "Testimonials Title",
+      "binding": {
+        "kind": "textNode",
+        "content": "Loved by teams that ship fast"
+      }
+    },
+    {
+      "id": "quotes",
+      "type": "repeater",
+      "label": "Quotes",
+      "binding": {
+        "kind": "array",
+        "array": "quotes",
+        "idKey": "id",
+        "template": {
+          "id": "new-quote",
+          "quote": "Add a customer quote",
+          "name": "Customer Name",
+          "role": "Role, Company"
+        }
+      }
+    }
+  ]
+}

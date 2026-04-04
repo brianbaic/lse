@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "component": "NovaHero",
+  "controls": [
+    {
+      "id": "nova-hero-title",
+      "type": "text",
+      "label": "Hero Title",
+      "binding": {
+        "kind": "textNode",
+        "content": "Build launch-ready product stories in minutes, not sprints."
+      }
+    },
+    {
+      "id": "nova-hero-subtitle",
+      "type": "text",
+      "label": "Hero Subtitle",
+      "binding": {
+        "kind": "textNode",
+        "content": "A visual-first editing environment for modern React teams that want velocity without sacrificing source quality."
+      }
+    },
+    {
+      "id": "nova-hero-primary",
+      "type": "text",
+      "label": "Primary Button",
+      "binding": {
+        "kind": "textNode",
+        "content": "Start Designing"
+      }
+    },
+    {
+      "id": "nova-hero-secondary",
+      "type": "text",
+      "label": "Secondary Button",
+      "binding": {
+        "kind": "textNode",
+        "content": "See Case Study"
+      }
+    }
+  ]
+}

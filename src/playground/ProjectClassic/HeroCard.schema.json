@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "component": "HeroCard",
+  "controls": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Headline",
+      "binding": {
+        "kind": "defaultProp",
+        "prop": "title"
+      }
+    },
+    {
+      "id": "subtitle",
+      "type": "text",
+      "label": "Subtitle",
+      "binding": {
+        "kind": "defaultProp",
+        "prop": "subtitle"
+      }
+    },
+    {
+      "id": "ctaText",
+      "type": "text",
+      "label": "Primary CTA",
+      "binding": {
+        "kind": "defaultProp",
+        "prop": "ctaText"
+      }
+    },
+    {
+      "id": "heroImage",
+      "type": "image",
+      "label": "First Card Image",
+      "binding": {
+        "kind": "arrayItemProperty",
+        "array": "cards",
+        "matchKey": "id",
+        "matchValue": "starter-kit",
+        "property": "image"
+      }
+    },
+    {
+      "id": "cards",
+      "type": "repeater",
+      "label": "Feature Cards",
+      "binding": {
+        "kind": "array",
+        "array": "cards",
+        "idKey": "id",
+        "template": {
+          "id": "new-card",
+          "title": "New Card",
+          "description": "Describe what makes this card useful.",
+          "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80"
+        }
+      }
+    },
+    {
+      "id": "cardColumns",
+      "type": "layout",
+      "label": "Card Columns",
+      "binding": {
+        "kind": "classToken",
+        "veId": "cards-grid",
+        "tokenPrefix": "md:grid-cols-",
+        "fallbackToken": "md:grid-cols-3"
+      },
+      "options": [
+        { "label": "1", "value": "1" },
+        { "label": "2", "value": "2" },
+        { "label": "3", "value": "3" },
+        { "label": "4", "value": "4" }
+      ]
+    },
+    {
+      "id": "cardGap",
+      "type": "layout",
+      "label": "Card Gap",
+      "binding": {
+        "kind": "classToken",
+        "veId": "cards-grid",
+        "tokenPrefix": "gap-",
+        "fallbackToken": "gap-4"
+      },
+      "options": [
+        { "label": "Gap 2", "value": "2" },
+        { "label": "Gap 4", "value": "4" },
+        { "label": "Gap 6", "value": "6" },
+        { "label": "Gap 8", "value": "8" }
+      ]
+    }
+  ]
+}

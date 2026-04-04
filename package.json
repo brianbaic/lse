@@ -1,0 +1,43 @@
+{
+  "name": "visual-editor",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:web": "vite",
+    "dev:api": "node server/index.js",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "concurrently \"npm run preview:api\" \"npm run preview:web\"",
+    "preview:web": "vite preview --port 4173 --strictPort",
+    "preview:api": "node server/index.js"
+  },
+  "dependencies": {
+    "@babel/generator": "^7.29.1",
+    "@babel/parser": "^7.29.2",
+    "@babel/traverse": "^7.29.0",
+    "@babel/types": "^7.29.0",
+    "cors": "^2.8.6",
+    "esbuild": "^0.28.0",
+    "express": "^5.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.27",
+    "concurrently": "^9.2.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.3"
+  }
+}

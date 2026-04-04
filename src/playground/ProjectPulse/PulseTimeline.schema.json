@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "component": "PulseTimeline",
+  "controls": [
+    {
+      "id": "pulse-timeline-title",
+      "type": "text",
+      "label": "Timeline Title",
+      "binding": {
+        "kind": "textNode",
+        "content": "From brief to launch in three weeks"
+      }
+    },
+    {
+      "id": "milestones",
+      "type": "repeater",
+      "label": "Milestones",
+      "binding": {
+        "kind": "array",
+        "array": "milestones",
+        "idKey": "id",
+        "template": {
+          "id": "new-step",
+          "label": "Week X",
+          "text": "New milestone"
+        }
+      }
+    }
+  ]
+}

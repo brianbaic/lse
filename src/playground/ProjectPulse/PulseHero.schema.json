@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "component": "PulseHero",
+  "controls": [
+    {
+      "id": "pulse-badge",
+      "type": "text",
+      "label": "Badge",
+      "binding": {
+        "kind": "textNode",
+        "content": "Project Pulse"
+      }
+    },
+    {
+      "id": "pulse-hero-title",
+      "type": "text",
+      "label": "Hero Title",
+      "binding": {
+        "kind": "textNode",
+        "content": "Turn product updates into polished landing sections in one editing pass."
+      }
+    },
+    {
+      "id": "pulse-hero-subtitle",
+      "type": "text",
+      "label": "Hero Subtitle",
+      "binding": {
+        "kind": "textNode",
+        "content": "Pulse focuses on conversion-first blocks that are easy to remix visually while preserving clean source files."
+      }
+    }
+  ]
+}

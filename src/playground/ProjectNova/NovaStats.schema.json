@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "component": "NovaStats",
+  "controls": [
+    {
+      "id": "stats",
+      "type": "repeater",
+      "label": "Stats",
+      "binding": {
+        "kind": "array",
+        "array": "stats",
+        "idKey": "id",
+        "template": {
+          "id": "new-stat",
+          "label": "New Metric",
+          "value": "100%"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "component": "NovaCta",
+  "controls": [
+    {
+      "id": "nova-cta-title",
+      "type": "text",
+      "label": "CTA Title",
+      "binding": {
+        "kind": "textNode",
+        "content": "Make visual editing your team’s competitive edge"
+      }
+    },
+    {
+      "id": "nova-cta-subtitle",
+      "type": "text",
+      "label": "CTA Subtitle",
+      "binding": {
+        "kind": "textNode",
+        "content": "Keep your source of truth clean while accelerating page assembly, testing, and launch cycles."
+      }
+    },
+    {
+      "id": "nova-cta-button",
+      "type": "text",
+      "label": "CTA Button",
+      "binding": {
+        "kind": "textNode",
+        "content": "Book a walkthrough"
+      }
+    }
+  ]
+}

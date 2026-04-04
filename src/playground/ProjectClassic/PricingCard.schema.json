@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "component": "PricingCard",
+  "controls": [
+    {
+      "id": "pricing-title",
+      "type": "text",
+      "label": "Section Title",
+      "binding": {
+        "kind": "defaultProp",
+        "prop": "pricingTitle"
+      }
+    },
+    {
+      "id": "pricing-subtitle",
+      "type": "text",
+      "label": "Section Subtitle",
+      "binding": {
+        "kind": "defaultProp",
+        "prop": "pricingSubtitle"
+      }
+    },
+    {
+      "id": "pricingTiers",
+      "type": "repeater",
+      "label": "Pricing Tiers",
+      "binding": {
+        "kind": "array",
+        "array": "tiers",
+        "idKey": "id",
+        "template": {
+          "id": "custom-tier",
+          "name": "Custom Plan",
+          "price": "99",
+          "description": "Custom pricing available",
+          "features": ["Custom feature 1", "Custom feature 2"],
+          "cta": "Contact us"
+        }
+      }
+    }
+  ]
+}

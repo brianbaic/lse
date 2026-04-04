@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "component": "PulseFeatures",
+  "controls": [
+    {
+      "id": "pulse-features-title",
+      "type": "text",
+      "label": "Section Title",
+      "binding": {
+        "kind": "textNode",
+        "content": "A toolkit built for launch teams"
+      }
+    },
+    {
+      "id": "features",
+      "type": "repeater",
+      "label": "Features",
+      "binding": {
+        "kind": "array",
+        "array": "features",
+        "idKey": "id",
+        "template": {
+          "id": "new-feature",
+          "title": "New Feature",
+          "description": "Describe the value"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "component": "PulseFooter",
+  "controls": [
+    {
+      "id": "pulse-footer-title",
+      "type": "text",
+      "label": "Footer Title",
+      "binding": {
+        "kind": "textNode",
+        "content": "Ready to ship your next campaign faster?"
+      }
+    },
+    {
+      "id": "pulse-footer-subtitle",
+      "type": "text",
+      "label": "Footer Subtitle",
+      "binding": {
+        "kind": "textNode",
+        "content": "Pulse gives your team a visual editing loop that keeps code quality high and delivery timelines short."
+      }
+    },
+    {
+      "id": "pulse-footer-button",
+      "type": "text",
+      "label": "Footer Button",
+      "binding": {
+        "kind": "textNode",
+        "content": "Start with Pulse"
+      }
+    }
+  ]
+}
