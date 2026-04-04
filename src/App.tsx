@@ -443,7 +443,19 @@ function buildInlineEditScript() {
         if (!target || !target.closest) {
           return null;
         }
-        return target.closest('[data-schema-id][data-editable-field]');
+        const schemaTarget = target.closest('[data-schema-id][data-editable-field]');
+        if (schemaTarget) {
+          return schemaTarget;
+        }
+
+        const fallback = target.closest('h1, h2, h3, h4, h5, h6, p, span, li, a, button, label, small, strong, em, blockquote');
+        if (!fallback) {
+          return null;
+        }
+        const hasDirectText = Array.from(fallback.childNodes || []).some(function(node) {
+          return node.nodeType === Node.TEXT_NODE && String(node.textContent || '').trim().length > 0;
+        });
+        return hasDirectText ? fallback : null;
       }
 
       function buildEditorForElement(element) {
@@ -526,19 +538,28 @@ function buildInlineEditScript() {
 
         function commit() {
           const nextValue = input.value;
+          const previousValue = metadata.text;
           if (isImageLike) {
             element.setAttribute('src', nextValue);
           } else {
             element.textContent = nextValue;
           }
 
-          window.parent.postMessage({
-            type: 've-mutation',
-            schemaId: metadata.schemaId,
-            editableField: metadata.editableField,
-            itemId: metadata.itemId,
-            value: nextValue,
-          }, '*');
+          if (metadata.schemaId) {
+            window.parent.postMessage({
+              type: 've-mutation',
+              schemaId: metadata.schemaId,
+              editableField: metadata.editableField,
+              itemId: metadata.itemId,
+              value: nextValue,
+            }, '*');
+          } else if (!isImageLike) {
+            window.parent.postMessage({
+              type: 've-text-replace',
+              oldText: previousValue,
+              value: nextValue,
+            }, '*');
+          }
           closeEditor();
         }
 
@@ -986,6 +1007,56 @@ function App() {
     await applyElementClassChange(next)
   }
 
+  async function applyLooseTextReplacement(oldText: string, nextText: string) {
+    if (!selectedFile) {
+      return
+    }
+
+    const oldValue = String(oldText || '')
+    const newValue = String(nextText || '')
+    if (!oldValue.trim()) {
+      setStatus('Could not persist text change: original text was empty.')
+      return
+    }
+
+    const escaped = oldValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const matches = source.match(new RegExp(escaped, 'g')) || []
+    if (matches.length !== 1) {
+      setStatus('Could not persist text change: text is not unique in source. Add schema binding for this field.')
+      return
+    }
+
+    const updatedSource = source.replace(oldValue, newValue)
+
+    try {
+      await fetch(getApiUrl('/api/source'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ file: selectedFile, source: updatedSource }),
+      })
+
+      const nextNodes = collectNodesSafe(updatedSource)
+      setSource(updatedSource)
+      setNodes(nextNodes)
+
+      const previewResponse = await fetch(getApiUrl(`/api/preview?file=${encodeURIComponent(selectedFile)}`))
+      const previewPayload = await previewResponse.json()
+      if (!previewResponse.ok) {
+        const message = String(previewPayload.error ?? previewPayload.message ?? 'Preview compilation failed.')
+        setPreviewScript('')
+        setStatus(`Preview error: ${message}`)
+        return
+      }
+
+      setPreviewScript(String(previewPayload.script ?? ''))
+      setStatus('Saved text directly to source')
+    } catch (error) {
+      setStatus(`Failed to persist text edit: ${String(error)}`)
+    }
+  }
+
   useEffect(() => {
     function handleIframeMessage(event: MessageEvent) {
       if (event.data.type === 've-element-selected') {
@@ -1006,6 +1077,9 @@ function App() {
       }
 
       if (event.data.type !== 've-mutation') {
+        if (event.data.type === 've-text-replace') {
+          void applyLooseTextReplacement(String(event.data.oldText || ''), String(event.data.value || ''))
+        }
         return
       }
 
@@ -1035,7 +1109,7 @@ function App() {
 
     window.addEventListener('message', handleIframeMessage)
     return () => window.removeEventListener('message', handleIframeMessage)
-  }, [schema, selectedFile, inspectMode])
+  }, [schema, selectedFile, inspectMode, source])
 
   useEffect(() => {
     const iframeElement = iframeRef.current
