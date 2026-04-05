@@ -651,6 +651,14 @@ function buildInlineEditScript() {
       }
 
       document.addEventListener('click', function(event) {
+        if (currentEditor && currentEditor.container && currentEditor.container.contains(event.target)) {
+          return;
+        }
+
+        if (currentEditor) {
+          closeEditor();
+        }
+
         const editableTarget = findEditableTarget(event.target);
         if (editableTarget) {
           event.stopPropagation();
