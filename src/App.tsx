@@ -443,6 +443,9 @@ function buildInlineEditScript() {
         if (!target || !target.closest) {
           return null;
         }
+        if (target.closest('[data-ve-editor]')) {
+          return null;
+        }
         const schemaTarget = target.closest('[data-schema-id][data-editable-field]');
         if (schemaTarget) {
           return schemaTarget;
@@ -469,6 +472,7 @@ function buildInlineEditScript() {
 
         const rect = element.getBoundingClientRect();
         const container = document.createElement('div');
+        container.setAttribute('data-ve-editor', 'true');
         container.style.position = 'fixed';
         container.style.zIndex = '2147483647';
         container.style.left = Math.max(8, rect.left) + 'px';
