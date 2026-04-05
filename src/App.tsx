@@ -661,6 +661,10 @@ function buildInlineEditScript() {
           return;
         }
 
+        if (event.target && event.target.closest && event.target.closest('[data-ve-editor]')) {
+          return;
+        }
+
         if (currentEditor) {
           closeEditor();
         }
