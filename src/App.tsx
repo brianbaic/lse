@@ -563,11 +563,13 @@ function buildInlineEditScript() {
           closeEditor();
         }
 
-        saveButton.addEventListener('click', function() {
+        saveButton.addEventListener('click', function(event) {
+          event.stopPropagation();
           commit();
         });
 
-        cancelButton.addEventListener('click', function() {
+        cancelButton.addEventListener('click', function(event) {
+          event.stopPropagation();
           closeEditor();
         });
 
